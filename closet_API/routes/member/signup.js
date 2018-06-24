@@ -3,7 +3,12 @@
 	Description : 회원가입
 	Content-type : form_data
 	method : POST - Body
-	Body : 
+	Body = {
+		member_email : String , 
+		member_password : String ,
+		member_nickname : String ,
+		member_profile : file
+	}
 */
 
 const express = require('express');
@@ -17,7 +22,7 @@ const crypto = require('crypto');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const aws = require('aws-sdk');
-aws.config.loadFromPath('../config/aws_config.json');	//	server 에서는 2개
+aws.config.loadFromPath('./config/aws_config.json');	//	server 에서는 2개
 const s3 = new aws.S3();
 
 const upload = multer({
@@ -31,18 +36,20 @@ const upload = multer({
     })
 });
 
-router.post('/', upload.single('profile'), function(req, res) {
+router.post('/', upload.single('member_profile'), function(req, res) {
 
-	let email = req.body.email ;
-	let password = req.body.password ;
-	let nickname = req.body.nickname ;
+	let member_email = req.body.member_email ;
+	let member_password = req.body.member_password ;
+	let member_nickname = req.body.member_nickname ;
 
-	let profile = ''
+	let member_profile = ''
 
-	if( req.file == null )
-		profile = null ;
-	else
-		profile = req.file.location ;
+	if( req.file == null ) {
+		member_profile = null ;
+	}
+	else{
+		member_profile = req.file.location ;
+	}
 
 	let task = [
 
@@ -64,7 +71,7 @@ router.post('/', upload.single('profile'), function(req, res) {
 
 			let checkDuplicationEmailQuery = 'SELECT * FROM Member WHERE member_email = ?' ;
 
-			connection.query( checkDuplicationEmailQuery , email , function( err , result ) {
+			connection.query( checkDuplicationEmailQuery , member_email , function( err , result ) {
 				if(err) {
 					res.status(500).send({
 						status : "fail" ,
@@ -102,7 +109,7 @@ router.post('/', upload.single('profile'), function(req, res) {
 
 					let salt = buffer.toString( 'base64' ) ;
 
-					crypto.pbkdf2( password , salt , 100000 , 64 , 'sha512' , function( err , hashed ) {
+					crypto.pbkdf2( member_password , salt , 100000 , 64 , 'sha512' , function( err , hashed ) {
 						if( err ) {
 							res.status(500).send({
 								status : "fail" ,
@@ -113,8 +120,9 @@ router.post('/', upload.single('profile'), function(req, res) {
 						} else {
 
 							let cryptopwd = hashed.toString( 'base64' ) ;
-							let insertMemberQuery = 'INSERT INTO Member VALUES( ? , ? , ? , ? )' ;
-							let queryArr = [ email , password , nickname , profile ] ;
+
+							let insertMemberQuery = 'INSERT INTO Member VALUES( ? , ? , ? , ? , ? )' ;
+							let queryArr = [ member_email , cryptopwd , salt , member_nickname , member_profile ] ;
 
 							connection.query( insertMemberQuery , queryArr , function( err , result ) {
 								if(err) {
