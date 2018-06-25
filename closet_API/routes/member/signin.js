@@ -83,15 +83,17 @@ router.post('/', function(req, res) {
 					if( cryptopwd !== object.member_password ) {
 						res.status(401).send({
 							status : "fail" ,
-							message : "failed login_pwd"
+							message : "failed login_password"
 						}) ;
 						connection.release() ;
-						callback( "failed login_pwd" ) ;
+						callback( "failed login_password" ) ;
 					} else {
 						res.status(201).send({
 							status : "success" ,
 							message : "successful signin"
 						}) ;
+						connection.release() ;
+						callback( null , "successful signin" ) ;
 					}
 				}
 			}) ;
