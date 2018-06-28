@@ -52,10 +52,11 @@ router.get( '/' , function( req , res ) {
 
 					for( var i = 0 ; i < result.length ; i++ ) {
 
+
 						let data = {
 							closet_index : result[i].closet_index ,
 							closet_image : result[i].closet_image ,
-							closet_uploadtime : result[i].closet_uploadtime ,
+							closet_uploadtime : moment(result[i].closet_uploadtime).format('YYYY.MM.DD') ,
 							closet_memo : result[i].closet_memo
 						}
 						list.push( data ) ;
