@@ -5,6 +5,9 @@ var router = express.Router();
 const upload = require( './upload' ) ;
 router.use( '/upload' , upload ) ;
 
+const collection = require( './collection' ) ;
+router.use( '/collection' , collection ) ;
+
 // 옷 삭제
 /*
 const drop = require( './drop' ) ;
