@@ -12,5 +12,9 @@ router.use( '/collection' , collection ) ;
 const drop = require( './drop' ) ;
 router.use( '/drop' , drop ) ;
 
+//	코디룸
+const codyroom = require( './codyroom' ) ;
+router.use( '/codyroom' , codyroom ) ;
+
 
 module.exports = router;
