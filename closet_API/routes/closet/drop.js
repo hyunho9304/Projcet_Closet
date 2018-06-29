@@ -14,7 +14,7 @@ const pool = require( '../../config/dbPool' ) ;
 const async = require( 'async' ) ;
 const moment = require( 'moment' ) ;
 
-router.post( '/' , function( req , res ) {
+router.delete( '/' , function( req , res ) {
 
 	let closet_index = req.body.closet_index
 

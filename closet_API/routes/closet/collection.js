@@ -1,6 +1,6 @@
 /*
 	URL : /closet/collection
-	Description : 새옷 등록
+	Description : 타입에 맞는 옷 리스트
 	Content-type : x-www-form-urlencoded
 	method : GET - query
 	query = /?member_email={ 유저 이메일 }&closet_type={ 카테고리 }
