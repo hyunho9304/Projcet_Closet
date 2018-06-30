@@ -15,6 +15,7 @@ const moment = require( 'moment' ) ;
 router.get( '/' , function( req , res ) {
 
 	let member_email = req.query.member_email ;
+	let closet_type = req.query.closet_type ;
 
 	let task = [
 
@@ -34,9 +35,10 @@ router.get( '/' , function( req , res ) {
 
 		function( connection , callback ) {
 
-			let selectClosetCodyRoomQuery = 'SELECT * FROM Closet WHERE member_email = ? ORDER BY closet_uploadtime DESC' ;
+			let selectClosetCodyRoomQuery = 'SELECT * FROM Closet WHERE member_email = ? AND closet_type = ? ORDER BY closet_uploadtime DESC' ;
+			let queryArr = [ member_email , closet_type ] ;
 
-			connection.query( selectClosetCodyRoomQuery , member_email , function(err , result) {
+			connection.query( selectClosetCodyRoomQuery , queryArr , function(err , result) {
 				if( err ) {
 					res.status(500).send({
 						status : "fail" ,
@@ -46,91 +48,44 @@ router.get( '/' , function( req , res ) {
 					callback( "selectClosetCodyRoomQuery err") ;
 				} else {
 
-					let summer_list = [] ;
-					let outer_list = [] ;
-					let knit_list = [] ;
-					let top_list = [] ;
-					let blouse_list = [] ;
-					let dress_list = [] ;
-					let skirt_list = [] ;
-					let pants_list = [] ;
-					let shoes_list = [] ;
-					let bag_list = [] ;
-					let acc_list = [] ;
+					let list = [] ;
+
+					if( closet_type === "OUTER" ){
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319864829.png" ) ;
+					} else if( closet_type === "KNIT" ) {
+						list.push( ) ;
+					} else if( closet_type === "TOP" ) {
+						list.push() ;
+					} else if( closet_type === "BLOUSE" ) {
+						list.push() ;
+					} else if( closet_type === "DRESS" ) {
+						list.push() ;
+					} else if( closet_type === "SKIRT" ) {
+						list.push() ;
+					} else if( closet_type === "PANTS" ) {
+						list.push() ;
+					} else if( closet_type === "SHOES" ) {
+						list.push() ;
+					} else if( closet_type === "BAG" ) {
+						list.push() ;
+					} else {
+						list.push() ;
+					}
 
 					for( var i = 0 ; i < result.length ; i++ ) {
-
-						switch( result[i].closet_type ) {
-
-							case( "SUMMER" ) : {
-								summer_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "OUTER" ) : {
-								outer_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "KNIT" ) : {
-								knit_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "TOP" ) : {
-								top_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "BLOUSE" ) : {
-								blouse_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "DRESS" ) : {
-								dress_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "SKIRT" ) : {
-								skirt_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "PANTS" ) : {
-								pants_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "SHOES" ) : {
-								shoes_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "BAG" ) : {
-								bag_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-							case( "ACC" ) : {
-								acc_list.push( result[i].closet_image ) ;
-								break ;
-							} ;
-						}
+						list.push( result[i].closet_image ) ;
 					}
 					connection.release() ;
-					callback( null , summer_list , outer_list , knit_list , top_list , blouse_list , dress_list , skirt_list , pants_list , shoes_list , bag_list , acc_list ) ;
+					callback( null , list) ;
 				}
 			}) ;
 		} ,
 
-		function( summer_list , outer_list , knit_list , top_list , blouse_list , dress_list , skirt_list , pants_list , shoes_list , bag_list , acc_list  , callback ) {
+		function( list , callback ) {
 
 			res.status(200).send({
 				status : "success" ,
-				data : {
-					SUMMER : summer_list ,
-					OUTER : outer_list ,
-					KNIT : knit_list , 
-					TOP : top_list ,
-					BLOUSE : blouse_list ,
-					DRESS : dress_list ,
-					SKIRT : skirt_list ,
-					PANTS : pants_list ,
-					SHOES : shoes_list ,
-					BAG : bag_list ,
-					ACC : acc_list
-				} ,
+				data : list ,
 				message : "successful get closet collection list"
 			}) ;
 			callback( null , "successful get closet collection list") ;
