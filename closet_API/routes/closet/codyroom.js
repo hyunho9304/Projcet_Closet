@@ -53,23 +53,23 @@ router.get( '/' , function( req , res ) {
 					if( closet_type === "OUTER" ){
 						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319864829.png" ) ;
 					} else if( closet_type === "KNIT" ) {
-						list.push( ) ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319876695.png" ) ;
 					} else if( closet_type === "TOP" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319886823.png" ) ;
 					} else if( closet_type === "BLOUSE" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319905114.png" ) ;
 					} else if( closet_type === "DRESS" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319919512.png" ) ;
 					} else if( closet_type === "SKIRT" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319934495.png" ) ;
 					} else if( closet_type === "PANTS" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319948639.png" ) ;
 					} else if( closet_type === "SHOES" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319964911.png" ) ;
 					} else if( closet_type === "BAG" ) {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319978787.png" ) ;
 					} else {
-						list.push() ;
+						list.push( "https://hyunho9304.s3.ap-northeast-2.amazonaws.com/1530319991079.png" ) ;
 					}
 
 					for( var i = 0 ; i < result.length ; i++ ) {
